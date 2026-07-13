@@ -1,732 +1,1607 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Qore Group — Tenemos la solución a todo</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --violet-950:#0B0620;
-    --violet-900:#150A33;
-    --violet-800:#241249;
-    --violet-600:#6D28D9;
-    --violet-500:#7C3AED;
-    --fuchsia-500:#C026D3;
-    --accent-glow:#A855F7;
-    --bg:#FAF9FC;
-    --paper:#FFFFFF;
-    --line:#E7E2F2;
-    --ink:#171025;
-    --ink-soft:#5B5470;
-    --mint-ok:#22C55E;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Qore Group — Soluciones digitales para crecer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --violet-950: #0b0620;
+        --violet-900: #150a33;
+        --violet-800: #241249;
+        --violet-600: #6d28d9;
+        --violet-500: #7c3aed;
+        --fuchsia-500: #c026d3;
+        --accent-glow: #a855f7;
+        --bg: #faf9fc;
+        --paper: #ffffff;
+        --line: #e7e2f2;
+        --ink: #171025;
+        --ink-soft: #5b5470;
+        --mint-ok: #22c55e;
+        --shadow-soft: 0 24px 70px -34px rgba(11, 6, 32, 0.28);
+        --shadow-card: 0 18px 45px -28px rgba(11, 6, 32, 0.24);
+        --surface-soft: #fcfaff;
 
-    --font-display: 'Sora', sans-serif;
-    --font-body: 'Inter', sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
-  }
+        --font-display: "Sora", sans-serif;
+        --font-body: "Inter", sans-serif;
+        --font-mono: "JetBrains Mono", monospace;
+      }
 
-  *{margin:0;padding:0;box-sizing:border-box;}
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-  html{scroll-behavior:smooth;}
+      html {
+        scroll-behavior: smooth;
+      }
 
-  body{
-    background:var(--bg);
-    color:var(--ink);
-    font-family:var(--font-body);
-    line-height:1.5;
-    -webkit-font-smoothing:antialiased;
-  }
+      body {
+        background: linear-gradient(180deg, #fcfaff 0%, var(--bg) 100%);
+        color: var(--ink);
+        font-family: var(--font-body);
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+      }
 
-  img,svg{display:block;}
+      img,
+      svg {
+        display: block;
+      }
 
-  a{color:inherit;text-decoration:none;}
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
 
-  .wrap{
-    max-width:1180px;
-    margin:0 auto;
-    padding:0 32px;
-  }
+      .wrap {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 32px;
+      }
 
-  h1,h2,h3{font-family:var(--font-display);letter-spacing:-0.02em;}
+      h1,
+      h2,
+      h3 {
+        font-family: var(--font-display);
+        letter-spacing: -0.02em;
+      }
 
-  .eyebrow{
-    font-family:var(--font-mono);
-    font-size:12px;
-    letter-spacing:0.14em;
-    text-transform:uppercase;
-    color:var(--violet-600);
-    font-weight:500;
-  }
+      .eyebrow {
+        font-family: var(--font-mono);
+        font-size: 13px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--violet-600);
+        font-weight: 500;
+      }
 
-  :focus-visible{
-    outline:2.5px solid var(--accent-glow);
-    outline-offset:3px;
-    border-radius:4px;
-  }
+      :focus-visible {
+        outline: 2.5px solid var(--accent-glow);
+        outline-offset: 3px;
+        border-radius: 4px;
+      }
 
-  /* ---------- TOP BAR ---------- */
-  .topbar{
-    position:sticky;
-    top:0;
-    z-index:50;
-    background:rgba(250,249,252,0.86);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--line);
-  }
-  .topbar-inner{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:16px 32px;
-    max-width:1180px;
-    margin:0 auto;
-  }
-  .logo{
-    display:flex;
-    align-items:center;
-    gap:10px;
-  }
-  .logo-mark{
-    width:34px;height:34px;
-    display:block;
-    object-fit:contain;
-  }
-  .logo-text{
-    font-family:var(--font-display);
-    font-weight:800;
-    font-size:18px;
-    line-height:1;
-  }
-  .logo-text span{
-    display:block;
-    font-family:var(--font-mono);
-    font-weight:500;
-    font-size:9.5px;
-    letter-spacing:0.28em;
-    color:var(--ink-soft);
-    margin-top:2px;
-  }
-  .topbar-cta{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    background:var(--violet-950);
-    color:#fff;
-    padding:10px 18px;
-    border-radius:100px;
-    font-size:13.5px;
-    font-weight:600;
-    transition:transform .18s ease, background .18s ease;
-  }
-  .topbar-cta:hover{background:var(--violet-600);transform:translateY(-1px);}
+      /* ---------- TOP BAR ---------- */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(250, 249, 252, 0.86);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--line);
+      }
+      .topbar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 32px;
+        max-width: 1180px;
+        margin: 0 auto;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .logo-mark {
+        width: 34px;
+        height: 34px;
+        display: block;
+        object-fit: contain;
+      }
+      .logo-text {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: 18px;
+        line-height: 1;
+      }
+      .logo-text span {
+        display: block;
+        font-family: var(--font-mono);
+        font-weight: 500;
+        font-size: 9.5px;
+        letter-spacing: 0.28em;
+        color: var(--ink-soft);
+        margin-top: 2px;
+      }
+      .topbar-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--violet-950);
+        color: #fff;
+        padding: 10px 18px;
+        border-radius: 100px;
+        font-size: 13.5px;
+        font-weight: 600;
+        transition:
+          transform 0.18s ease,
+          background 0.18s ease;
+      }
+      .topbar-cta:hover {
+        background: var(--violet-600);
+        transform: translateY(-1px);
+      }
 
-  /* ---------- HERO ---------- */
-  .hero{
-    display:grid;
-    grid-template-columns:1.05fr 0.95fr;
-    min-height:640px;
-  }
-  .hero-left{
-    padding:88px 56px 72px 32px;
-    max-width:1180px;
-    margin-left:auto;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-  }
-  .hero-left .wrap-inner{max-width:520px;}
-  .hero h1{
-    font-size:clamp(40px,5.4vw,64px);
-    font-weight:800;
-    line-height:1.02;
-    margin:18px 0 22px;
-  }
-  .hero h1 .accent{
-    background:linear-gradient(100deg,var(--violet-600),var(--fuchsia-500));
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-  }
-  .hero p{
-    font-size:17px;
-    color:var(--ink-soft);
-    max-width:440px;
-    margin-bottom:34px;
-  }
-  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;}
-  .btn-primary{
-    display:inline-flex;align-items:center;gap:10px;
-    background:var(--violet-950);
-    color:#fff;
-    padding:15px 26px;
-    border-radius:12px;
-    font-weight:600;
-    font-size:14.5px;
-    transition:transform .18s ease, box-shadow .18s ease;
-    box-shadow:0 10px 24px -12px rgba(11,6,32,0.5);
-  }
-  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 30px -12px rgba(11,6,32,0.6);}
-  .btn-ghost{
-    display:inline-flex;align-items:center;gap:8px;
-    padding:15px 22px;
-    border-radius:12px;
-    font-weight:600;
-    font-size:14.5px;
-    border:1.5px solid var(--line);
-    color:var(--ink);
-    transition:border-color .18s ease, background .18s ease;
-  }
-  .btn-ghost:hover{border-color:var(--violet-600);background:#fff;}
+      /* ---------- HERO ---------- */
+      .hero {
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        min-height: 640px;
+        gap: 24px;
+        align-items: stretch;
+      }
+      .hero-left {
+        padding: 88px 24px 72px 32px;
+        max-width: 1180px;
+        margin-left: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .hero-left .wrap-inner {
+        max-width: 560px;
+      }
+      .hero h1 {
+        font-size: clamp(40px, 5.4vw, 64px);
+        font-weight: 800;
+        line-height: 0.98;
+        margin: 18px 0 16px;
+      }
+      .hero h1 .accent {
+        background: linear-gradient(
+          100deg,
+          var(--violet-600),
+          var(--fuchsia-500)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .hero p {
+        font-size: 18px;
+        color: var(--ink-soft);
+        max-width: 480px;
+        margin-bottom: 24px;
+      }
+      .hero-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 0 0 28px;
+      }
+      .hero-badges span {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(109, 40, 217, 0.15);
+        background: rgba(255, 255, 255, 0.82);
+        color: var(--violet-800);
+        font-size: 12.5px;
+        font-weight: 600;
+        box-shadow: 0 8px 20px -16px rgba(11, 6, 32, 0.28);
+      }
+      .hero-ctas {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--violet-950);
+        color: #fff;
+        padding: 15px 26px;
+        border-radius: 14px;
+        font-weight: 600;
+        font-size: 14.5px;
+        transition:
+          transform 0.18s ease,
+          box-shadow 0.18s ease;
+        box-shadow: 0 14px 30px -16px rgba(11, 6, 32, 0.6);
+      }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 18px 36px -16px rgba(11, 6, 32, 0.7);
+      }
+      .btn-ghost {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 15px 22px;
+        border-radius: 14px;
+        font-weight: 600;
+        font-size: 14.5px;
+        border: 1.5px solid var(--line);
+        background: rgba(255, 255, 255, 0.9);
+        color: var(--ink);
+        transition:
+          border-color 0.18s ease,
+          background 0.18s ease,
+          transform 0.18s ease;
+      }
+      .btn-ghost:hover {
+        border-color: var(--violet-600);
+        background: #fff;
+        transform: translateY(-1px);
+      }
 
-  .hero-right{
-    position:relative;
-    background:
-      radial-gradient(ellipse at 30% 20%, rgba(124,58,237,0.35), transparent 55%),
-      linear-gradient(160deg,var(--violet-950),var(--violet-900) 60%,#180A3B);
-    overflow:hidden;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
-  .circuit-svg{
-    position:absolute;
-    inset:0;
-    width:100%;height:100%;
-    opacity:0.55;
-  }
-  .core-node{
-    position:relative;
-    z-index:2;
-    width:112px;height:112px;
-    border-radius:22px;
-    background:linear-gradient(135deg,var(--violet-600),var(--fuchsia-500));
-    display:flex;align-items:center;justify-content:center;
-    font-family:var(--font-display);
-    font-weight:800;
-    font-size:26px;
-    color:#fff;
-    letter-spacing:0.02em;
-    box-shadow:0 0 0 1px rgba(255,255,255,0.15), 0 0 80px 10px rgba(168,85,247,0.55);
-    animation:pulse-glow 3.2s ease-in-out infinite;
-  }
-  @keyframes pulse-glow{
-    0%,100%{box-shadow:0 0 0 1px rgba(255,255,255,0.15), 0 0 60px 6px rgba(168,85,247,0.45);}
-    50%{box-shadow:0 0 0 1px rgba(255,255,255,0.25), 0 0 100px 18px rgba(168,85,247,0.75);}
-  }
+      .hero-right {
+        position: relative;
+        min-height: 640px;
+        background:
+          radial-gradient(
+            ellipse at 30% 20%,
+            rgba(124, 58, 237, 0.38),
+            transparent 55%
+          ),
+          linear-gradient(
+            160deg,
+            var(--violet-950),
+            var(--violet-900) 60%,
+            #180a3b
+          );
+        border-radius: 32px 0 0 32px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.08),
+          var(--shadow-soft);
+      }
+      .circuit-svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.55;
+      }
+      .core-node {
+        position: relative;
+        z-index: 2;
+        width: 128px;
+        height: 128px;
+        border-radius: 24px;
+        background: linear-gradient(
+          135deg,
+          var(--violet-600),
+          var(--fuchsia-500)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: 28px;
+        color: #fff;
+        letter-spacing: 0.02em;
+        box-shadow:
+          0 0 0 1px rgba(255, 255, 255, 0.15),
+          0 0 80px 10px rgba(168, 85, 247, 0.55);
+        animation: pulse-glow 3.2s ease-in-out infinite;
+      }
+      @keyframes pulse-glow {
+        0%,
+        100% {
+          box-shadow:
+            0 0 0 1px rgba(255, 255, 255, 0.15),
+            0 0 60px 6px rgba(168, 85, 247, 0.45);
+        }
+        50% {
+          box-shadow:
+            0 0 0 1px rgba(255, 255, 255, 0.25),
+            0 0 100px 18px rgba(168, 85, 247, 0.75);
+        }
+      }
 
-  .solutions-card{
-    position:absolute;
-    top:40px;right:40px;
-    z-index:3;
-    background:rgba(21,10,51,0.72);
-    border:1px solid rgba(255,255,255,0.12);
-    backdrop-filter:blur(14px);
-    border-radius:16px;
-    padding:22px 22px 18px;
-    width:270px;
-  }
-  .solutions-card h3{
-    color:#fff;
-    font-size:14.5px;
-    font-weight:700;
-    margin-bottom:16px;
-    line-height:1.3;
-  }
-  .solutions-card h3 em{
-    font-style:normal;
-    background:linear-gradient(100deg,#C4B5FD,#F0ABFC);
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-  }
-  .sol-item{
-    display:flex;align-items:flex-start;gap:10px;
-    padding:9px 0;
-    border-top:1px solid rgba(255,255,255,0.09);
-  }
-  .sol-item:first-of-type{border-top:none;}
-  .sol-item svg{flex-shrink:0;margin-top:1px;color:#C4B5FD;}
-  .sol-item span{color:rgba(255,255,255,0.85);font-size:12.5px;font-weight:500;line-height:1.35;}
+      .solutions-card {
+        position: absolute;
+        top: 38px;
+        right: 34px;
+        z-index: 3;
+        background: rgba(21, 10, 51, 0.72);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(14px);
+        border-radius: 20px;
+        padding: 24px 22px 20px;
+        width: 292px;
+        box-shadow: 0 24px 44px -26px rgba(0, 0, 0, 0.45);
+      }
+      .solutions-card h3 {
+        color: #fff;
+        font-size: 14.5px;
+        font-weight: 700;
+        margin-bottom: 16px;
+        line-height: 1.3;
+      }
+      .solutions-card h3 em {
+        font-style: normal;
+        background: linear-gradient(100deg, #c4b5fd, #f0abfc);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .sol-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 9px 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.09);
+      }
+      .sol-item:first-of-type {
+        border-top: none;
+      }
+      .sol-item svg {
+        flex-shrink: 0;
+        margin-top: 1px;
+        color: #c4b5fd;
+      }
+      .sol-item span {
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 12.5px;
+        font-weight: 500;
+        line-height: 1.35;
+      }
 
-  /* ---------- SECTION HEADERS ---------- */
-  .section{padding:92px 0;}
-  .section-head{
-    text-align:center;
-    max-width:560px;
-    margin:0 auto 52px;
-  }
-  .section-head h2{
-    font-size:clamp(26px,3.2vw,36px);
-    font-weight:800;
-    margin-top:10px;
-  }
-  .section-alt{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+      /* ---------- SECTION HEADERS ---------- */
+      .section {
+        padding: 92px 0;
+      }
+      .section-head {
+        text-align: center;
+        max-width: 560px;
+        margin: 0 auto 52px;
+      }
+      .section-head h2 {
+        font-size: clamp(26px, 3.2vw, 36px);
+        font-weight: 800;
+        margin-top: 10px;
+      }
+      .section-alt {
+        background: var(--paper);
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+      }
 
-  /* ---------- SERVICES ---------- */
-  .services-grid{
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:1px;
-    background:var(--line);
-    border:1px solid var(--line);
-    border-radius:18px;
-    overflow:hidden;
-  }
-  .service-card{
-    background:var(--paper);
-    padding:34px 24px;
-    display:flex;
-    flex-direction:column;
-    gap:16px;
-    transition:background .18s ease;
-  }
-  .service-card:hover{background:#FBF9FF;}
-  .icon-box{
-    width:46px;height:46px;
-    border-radius:12px;
-    background:linear-gradient(135deg,#F3E8FF,#FCE7F3);
-    display:flex;align-items:center;justify-content:center;
-    color:var(--violet-600);
-  }
-  .service-card h3{font-size:15px;font-weight:700;}
-  .service-card p{font-size:13.5px;color:var(--ink-soft);}
+      /* ---------- APPROACH ---------- */
+      .approach-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+      .approach-card {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 28px 24px;
+        box-shadow: 0 14px 36px -26px rgba(11, 6, 32, 0.16);
+      }
+      .step-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 999px;
+        background: linear-gradient(
+          135deg,
+          var(--violet-600),
+          var(--fuchsia-500)
+        );
+        color: #fff;
+        font-family: var(--font-mono);
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 14px;
+      }
+      .approach-card h3 {
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+      .approach-card p {
+        font-size: 13.5px;
+        color: var(--ink-soft);
+      }
 
-  /* ---------- PROBLEMS ---------- */
-  .problems-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:28px;
-  }
-  .problem-card{
-    text-align:center;
-    padding:30px 20px;
-  }
-  .problem-icon{
-    width:60px;height:60px;
-    border-radius:50%;
-    border:1.5px solid var(--line);
-    display:flex;align-items:center;justify-content:center;
-    margin:0 auto 18px;
-    color:var(--violet-600);
-  }
-  .problem-card p{font-size:14px;color:var(--ink-soft);max-width:230px;margin:0 auto;}
-  .problem-card p strong{color:var(--ink);font-weight:600;}
+      /* ---------- SERVICES ---------- */
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 16px;
+        background: transparent;
+        border: none;
+        border-radius: 24px;
+        overflow: visible;
+      }
+      .service-card {
+        background: var(--paper);
+        padding: 34px 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease,
+          background 0.2s ease;
+        border: 1px solid rgba(231, 226, 242, 0.9);
+        border-radius: 20px;
+        box-shadow: var(--shadow-card);
+      }
+      .service-card:hover {
+        background: #fbf9ff;
+        transform: translateY(-4px);
+        box-shadow: 0 22px 48px -26px rgba(11, 6, 32, 0.28);
+      }
+      .icon-box {
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #f3e8ff, #fce7f3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--violet-600);
+      }
+      .service-card h3 {
+        font-size: 15px;
+        font-weight: 700;
+      }
+      .service-card p {
+        font-size: 14px;
+        color: var(--ink-soft);
+      }
 
-  /* ---------- HELP GRID ---------- */
-  .help-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:20px;
-  }
-  .help-card{
-    background:var(--paper);
-    border:1px solid var(--line);
-    border-radius:16px;
-    padding:26px 22px;
-    display:flex;
-    gap:16px;
-    align-items:flex-start;
-    transition:border-color .18s ease, transform .18s ease;
-  }
-  .help-card:hover{border-color:var(--violet-500);transform:translateY(-3px);}
-  .help-icon{
-    width:44px;height:44px;flex-shrink:0;
-    border-radius:12px;
-    background:var(--violet-950);
-    display:flex;align-items:center;justify-content:center;
-    color:#fff;
-  }
-  .help-card h3{font-size:14.5px;font-weight:700;margin-bottom:4px;}
-  .help-card p{font-size:13px;color:var(--ink-soft);}
+      /* ---------- PROBLEMS ---------- */
+      .problems-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+      .problem-card {
+        text-align: center;
+        padding: 30px 22px;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.96),
+          rgba(250, 247, 255, 0.92)
+        );
+        box-shadow: 0 14px 36px -26px rgba(11, 6, 32, 0.18);
+      }
+      .problem-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        border: 1.5px solid var(--line);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 18px;
+        color: var(--violet-600);
+      }
+      .problem-card p {
+        font-size: 14.5px;
+        color: var(--ink-soft);
+        max-width: 230px;
+        margin: 0 auto;
+      }
+      .problem-card p strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
 
-  /* ---------- CTA BANNER ---------- */
-  .cta-banner{
-    background:linear-gradient(115deg,var(--violet-950) 0%,#1C0B45 55%,#2A0E4F 100%);
-    border-radius:24px;
-    padding:44px 48px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:24px;
-    color:#fff;
-    flex-wrap:wrap;
-    position:relative;
-    overflow:hidden;
-  }
-  .cta-banner::before{
-    content:"";
-    position:absolute;
-    top:-40%;right:-10%;
-    width:340px;height:340px;
-    background:radial-gradient(circle,rgba(168,85,247,0.35),transparent 70%);
-  }
-  .cta-left{display:flex;align-items:center;gap:20px;position:relative;z-index:1;}
-  .cta-badge{
-    width:56px;height:56px;border-radius:16px;
-    background:rgba(255,255,255,0.1);
-    display:flex;align-items:center;justify-content:center;
-    color:#4ADE80;
-    flex-shrink:0;
-  }
-  .cta-left h3{font-size:19px;font-weight:700;line-height:1.35;max-width:360px;}
-  .cta-left h3 em{font-style:normal;color:#C4B5FD;}
-  .cta-right{
-    position:relative;z-index:1;
-    display:flex;flex-direction:column;align-items:flex-end;gap:10px;
-  }
-  .cta-right .btn-primary{background:#fff;color:var(--violet-950);}
-  .cta-right .btn-primary:hover{background:#F3E8FF;}
-  .cta-phone{
-    font-family:var(--font-mono);
-    font-size:17px;font-weight:600;
-    display:flex;align-items:center;gap:8px;
-    color:#fff;
-  }
-  .cta-right small{color:rgba(255,255,255,0.55);font-size:12px;}
+      /* ---------- HELP GRID ---------- */
+      .help-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+      .help-card {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 26px 22px;
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+        transition:
+          border-color 0.18s ease,
+          transform 0.18s ease,
+          box-shadow 0.18s ease;
+        box-shadow: 0 14px 36px -26px rgba(11, 6, 32, 0.16);
+      }
+      .help-card:hover {
+        border-color: var(--violet-500);
+        transform: translateY(-3px);
+        box-shadow: 0 18px 40px -24px rgba(11, 6, 32, 0.22);
+      }
+      .help-icon {
+        width: 44px;
+        height: 44px;
+        flex-shrink: 0;
+        border-radius: 12px;
+        background: var(--violet-950);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+      }
+      .help-card h3 {
+        font-size: 14.5px;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+      .help-card p {
+        font-size: 14px;
+        color: var(--ink-soft);
+      }
 
-  /* ---------- TRUST STRIP ---------- */
-  .trust-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:28px;
-  }
-  .trust-item{display:flex;gap:14px;align-items:flex-start;}
-  .trust-icon{
-    width:40px;height:40px;flex-shrink:0;
-    border-radius:10px;
-    border:1.5px solid var(--line);
-    display:flex;align-items:center;justify-content:center;
-    color:var(--violet-600);
-  }
-  .trust-item h4{font-size:13.5px;font-weight:700;margin-bottom:3px;}
-  .trust-item p{font-size:12.5px;color:var(--ink-soft);}
+      /* ---------- CTA BANNER ---------- */
+      .cta-banner {
+        background: linear-gradient(
+          115deg,
+          var(--violet-950) 0%,
+          #1c0b45 55%,
+          #2a0e4f 100%
+        );
+        border-radius: 28px;
+        padding: 44px 48px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        color: #fff;
+        flex-wrap: wrap;
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--shadow-soft);
+      }
+      .cta-banner::before {
+        content: "";
+        position: absolute;
+        top: -40%;
+        right: -10%;
+        width: 340px;
+        height: 340px;
+        background: radial-gradient(
+          circle,
+          rgba(168, 85, 247, 0.35),
+          transparent 70%
+        );
+      }
+      .cta-left {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        position: relative;
+        z-index: 1;
+      }
+      .cta-badge {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #4ade80;
+        flex-shrink: 0;
+      }
+      .cta-left h3 {
+        font-size: 19px;
+        font-weight: 700;
+        line-height: 1.35;
+        max-width: 360px;
+      }
+      .cta-left h3 em {
+        font-style: normal;
+        color: #c4b5fd;
+      }
+      .cta-right {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 10px;
+      }
+      .cta-right .btn-primary {
+        background: #fff;
+        color: var(--violet-950);
+      }
+      .cta-right .btn-primary:hover {
+        background: #f3e8ff;
+      }
+      .cta-phone {
+        font-family: var(--font-mono);
+        font-size: 17px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #fff;
+      }
+      .cta-right small {
+        color: rgba(255, 255, 255, 0.55);
+        font-size: 13px;
+      }
 
-  /* ---------- FOOTER ---------- */
-  footer{
-    background:var(--violet-950);
-    color:rgba(255,255,255,0.75);
-    padding:30px 0;
-  }
-  .footer-inner{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    gap:18px;
-  }
-  .footer-logo{display:flex;align-items:center;gap:9px;}
-  .footer-logo-text{
-    font-family:var(--font-display);font-weight:800;color:#fff;font-size:15px;
-  }
-  .footer-links{
-    display:flex;gap:28px;flex-wrap:wrap;
-    font-size:13px;
-  }
-  .footer-links a{display:flex;align-items:center;gap:7px;transition:color .18s ease;}
-  .footer-links a:hover{color:#fff;}
+      /* ---------- TRUST STRIP ---------- */
+      .trust-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 28px;
+      }
+      .trust-item {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+      }
+      .trust-icon {
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+        border-radius: 10px;
+        border: 1.5px solid var(--line);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--violet-600);
+      }
+      .trust-item h4 {
+        font-size: 13.5px;
+        font-weight: 700;
+        margin-bottom: 3px;
+      }
+      .trust-item p {
+        font-size: 13px;
+        color: var(--ink-soft);
+      }
 
-  /* ---------- RESPONSIVE ---------- */
-  @media (max-width:980px){
-    .hero{grid-template-columns:1fr;}
-    .hero-left{margin:0;padding:64px 24px 40px;max-width:none;}
-    .hero-right{min-height:420px;}
-    .solutions-card{position:static;margin:24px;width:auto;}
-    .services-grid{grid-template-columns:repeat(2,1fr);}
-    .problems-grid{grid-template-columns:repeat(2,1fr);}
-    .help-grid{grid-template-columns:repeat(2,1fr);}
-    .trust-grid{grid-template-columns:repeat(2,1fr);}
-    .cta-banner{flex-direction:column;align-items:flex-start;}
-    .cta-right{align-items:flex-start;width:100%;}
-  }
-  @media (max-width:600px){
-    .wrap{padding:0 20px;}
-    .services-grid{grid-template-columns:1fr;}
-    .problems-grid{grid-template-columns:1fr;}
-    .help-grid{grid-template-columns:1fr;}
-    .trust-grid{grid-template-columns:1fr;}
-    .topbar-inner{padding:14px 20px;}
-    .footer-inner{flex-direction:column;align-items:flex-start;}
-  }
+      /* ---------- FOOTER ---------- */
+      footer {
+        background: var(--violet-950);
+        color: rgba(255, 255, 255, 0.75);
+        padding: 30px 0;
+      }
+      .footer-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 18px;
+      }
+      .footer-logo {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+      }
+      .footer-logo-text {
+        font-family: var(--font-display);
+        font-weight: 800;
+        color: #fff;
+        font-size: 15px;
+      }
+      .footer-links {
+        display: flex;
+        gap: 28px;
+        flex-wrap: wrap;
+        font-size: 13px;
+      }
+      .footer-links a {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        transition: color 0.18s ease;
+      }
+      .footer-links a:hover {
+        color: #fff;
+      }
 
-  @media (prefers-reduced-motion:reduce){
-    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
-    html{scroll-behavior:auto;}
-  }
-</style>
-</head>
-<body>
+      /* ---------- RESPONSIVE ---------- */
+      @media (max-width: 980px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+        .hero-left {
+          margin: 0;
+          padding: 64px 24px 40px;
+          max-width: none;
+        }
+        .hero-right {
+          min-height: 420px;
+          border-radius: 24px;
+        }
+        .solutions-card {
+          position: static;
+          margin: 24px;
+          width: auto;
+        }
+        .services-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .problems-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .help-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .trust-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .cta-banner {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .cta-right {
+          align-items: flex-start;
+          width: 100%;
+        }
+      }
+      @media (max-width: 600px) {
+        .wrap {
+          padding: 0 20px;
+        }
+        .services-grid {
+          grid-template-columns: 1fr;
+        }
+        .problems-grid {
+          grid-template-columns: 1fr;
+        }
+        .help-grid {
+          grid-template-columns: 1fr;
+        }
+        .trust-grid {
+          grid-template-columns: 1fr;
+        }
+        .topbar-inner {
+          padding: 14px 20px;
+        }
+        .footer-inner {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
 
-<header class="topbar">
-  <div class="topbar-inner">
-    <div class="logo">
-      <img src="assets/q-icon.png" alt="Qore Group" class="logo-mark">
-      <div class="logo-text">QORE<span>G R O U P</span></div>
-    </div>
-    <a class="topbar-cta" href="https://wa.me/51999999999" target="_blank" rel="noopener">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-      Hablemos
-    </a>
-  </div>
-</header>
-
-<!-- ===================== HERO ===================== -->
-<section class="hero">
-  <div class="hero-left">
-    <div class="wrap-inner">
-      <span class="eyebrow">Soluciones tecnológicas · Cajamarca, Perú</span>
-      <h1>Tenemos<br>la solución<br><span class="accent">a todo.</span></h1>
-      <p>Transformamos tus ideas en soluciones tecnológicas completas, innovadoras y escalables para hacer crecer tu negocio.</p>
-      <div class="hero-ctas">
-        <a class="btn-primary" href="#contacto">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-          Hablemos de tu proyecto
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation-duration: 0.001ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.001ms !important;
+        }
+        html {
+          scroll-behavior: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="logo">
+          <img src="assets/q-icon.png" alt="Qore Group" class="logo-mark" />
+          <div class="logo-text">QORE<span>G R O U P</span></div>
+        </div>
+        <a
+          class="topbar-cta"
+          href="https://wa.me/51966367594"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+            />
+          </svg>
+          Hablemos
         </a>
-        <a class="btn-ghost" href="#lo-que-hacemos">Ver qué hacemos</a>
       </div>
-    </div>
-  </div>
+    </header>
 
-  <div class="hero-right">
-    <svg class="circuit-svg" viewBox="0 0 600 640" xmlns="http://www.w3.org/2000/svg">
-      <g stroke="#A855F7" stroke-width="1.2" fill="none" opacity="0.5">
-        <path d="M300 320 L300 120 L420 120 L420 60"/>
-        <path d="M300 320 L120 320 L120 200 L60 200"/>
-        <path d="M300 320 L300 520 L180 520 L180 580"/>
-        <path d="M300 320 L480 320 L480 440 L540 440"/>
-        <path d="M300 320 L400 260 L470 260"/>
-        <path d="M300 320 L200 400 L140 400 L140 480"/>
-        <path d="M300 320 L360 220 L360 100"/>
-        <path d="M300 320 L220 220 L220 90"/>
-      </g>
-      <g fill="#C4B5FD" opacity="0.85">
-        <circle cx="420" cy="60" r="4"/>
-        <circle cx="60" cy="200" r="4"/>
-        <circle cx="180" cy="580" r="4"/>
-        <circle cx="540" cy="440" r="4"/>
-        <circle cx="470" cy="260" r="4"/>
-        <circle cx="140" cy="480" r="4"/>
-        <circle cx="360" cy="100" r="4"/>
-        <circle cx="220" cy="90" r="4"/>
-      </g>
-    </svg>
-    <div class="core-node" aria-hidden="true">AI</div>
-
-    <div class="solutions-card">
-      <h3>Soluciones impulsadas por <em>IA</em></h3>
-
-      <div class="sol-item">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-        <span>Automatización inteligente</span>
-      </div>
-      <div class="sol-item">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-6 4 3 5-8"/></svg>
-        <span>Análisis predictivo</span>
-      </div>
-      <div class="sol-item">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="7" width="14" height="12" rx="2"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/><circle cx="9.5" cy="13" r="1"/><circle cx="14.5" cy="13" r="1"/></svg>
-        <span>Chatbots y asistentes IA</span>
-      </div>
-      <div class="sol-item">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 20h18"/><rect x="6" y="12" width="3" height="8"/><rect x="11" y="7" width="3" height="13"/><rect x="16" y="4" width="3" height="16"/></svg>
-        <span>Toma de decisiones basada en datos</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===================== LO QUE HACEMOS ===================== -->
-<section class="section" id="lo-que-hacemos">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">Servicios</span>
-      <h2>Lo que hacemos</h2>
-    </div>
-
-    <div class="services-grid">
-      <article class="service-card">
-        <div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
-        <h3>Desarrollo de software</h3>
-        <p>Aplicaciones web y móviles a la medida.</p>
-      </article>
-      <article class="service-card">
-        <div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></div>
-        <h3>Cloud &amp; DevOps</h3>
-        <p>Infraestructura segura y escalable en la nube.</p>
-      </article>
-      <article class="service-card">
-        <div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-        <h3>Equipos especializados</h3>
-        <p>Talento experto que impulsa tus proyectos.</p>
-      </article>
-      <article class="service-card">
-        <div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="7" y="7" width="10" height="10" rx="1"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg></div>
-        <h3>Inteligencia artificial</h3>
-        <p>Automatización, análisis y modelos predictivos que generan valor.</p>
-      </article>
-      <article class="service-card">
-        <div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 6v6c0 5 3.4 8.7 8 10 4.6-1.3 8-5 8-10V6z"/><path d="m9 12 2 2 4-4"/></svg></div>
-        <h3>Consultoría tecnológica</h3>
-        <p>Estrategia, seguridad y transformación digital.</p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ===================== PROBLEMAS ===================== -->
-<section class="section section-alt">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">Diagnóstico</span>
-      <h2>¿Tu negocio enfrenta estos problemas?</h2>
-    </div>
-
-    <div class="problems-grid">
-      <div class="problem-card">
-        <div class="problem-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg></div>
-        <p><strong>Pierdes tiempo</strong> en tareas repetitivas y manuales.</p>
-      </div>
-      <div class="problem-card">
-        <div class="problem-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
-        <p><strong>Tu información</strong> está en diferentes lugares y no la encuentras fácil.</p>
-      </div>
-      <div class="problem-card">
-        <div class="problem-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="14" x2="15" y2="14"/><line x1="9" y1="17" x2="15" y2="17"/></svg></div>
-        <p><strong>No tienes datos</strong> claros para tomar decisiones con seguridad.</p>
-      </div>
-      <div class="problem-card">
-        <div class="problem-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></div>
-        <p><strong>Se te dificulta</strong> dar seguimiento a tus clientes y ventas.</p>
-      </div>
-      <div class="problem-card">
-        <div class="problem-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
-        <p><strong>Sistemas que no</strong> se adaptan a tu forma de trabajar.</p>
-      </div>
-      <div class="problem-card">
-        <div class="problem-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
-        <p><strong>Riesgo de perder</strong> información valiosa de tu negocio.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===================== NOSOTROS TE AYUDAMOS A ===================== -->
-<section class="section">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">Beneficios</span>
-      <h2>Nosotros te ayudamos a</h2>
-    </div>
-
-    <div class="help-grid">
-      <div class="help-card">
-        <div class="help-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
-        <div>
-          <h3>Automatizar</h3>
-          <p>Tareas y procesos para ahorrar tiempo y recursos.</p>
+    <!-- ===================== HERO ===================== -->
+    <section class="hero">
+      <div class="hero-left">
+        <div class="wrap-inner">
+          <span class="eyebrow">Soluciones tecnológicas · Cajamarca, Perú</span>
+          <h1>
+            Tenemos<br />la solución<br /><span class="accent">a todo.</span>
+          </h1>
+          <p>
+            Diseñamos software, automatizaciones e inteligencia artificial para
+            empresas que quieren operar mejor, ahorrar tiempo y crecer con más
+            claridad.
+          </p>
+          <div class="hero-badges">
+            <span>Software a medida</span>
+            <span>Automatización</span>
+            <span>Estrategia digital</span>
+          </div>
+          <div class="hero-ctas">
+            <a class="btn-primary" href="#contacto">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+                />
+              </svg>
+              Hablemos de tu proyecto
+            </a>
+            <a class="btn-ghost" href="#lo-que-hacemos">Ver qué hacemos</a>
+          </div>
         </div>
       </div>
-      <div class="help-card">
-        <div class="help-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
-        <div>
-          <h3>Organizar</h3>
-          <p>Toda tu información en un solo lugar, segura y disponible.</p>
-        </div>
-      </div>
-      <div class="help-card">
-        <div class="help-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-        <div>
-          <h3>Mejorar</h3>
-          <p>La atención y satisfacción de tus clientes.</p>
-        </div>
-      </div>
-      <div class="help-card">
-        <div class="help-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 20h18"/><rect x="6" y="12" width="3" height="8"/><rect x="11" y="7" width="3" height="13"/><rect x="16" y="4" width="3" height="16"/></svg></div>
-        <div>
-          <h3>Obtener</h3>
-          <p>Reportes claros para tomar decisiones inteligentes.</p>
-        </div>
-      </div>
-      <div class="help-card">
-        <div class="help-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 6v6c0 5 3.4 8.7 8 10 4.6-1.3 8-5 8-10V6z"/><path d="m9 12 2 2 4-4"/></svg></div>
-        <div>
-          <h3>Proteger</h3>
-          <p>Tus datos y los de tus clientes con seguridad.</p>
-        </div>
-      </div>
-      <div class="help-card">
-        <div class="help-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
-        <div>
-          <h3>Hacer crecer</h3>
-          <p>Tu negocio con tecnología simple, confiable y escalable.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- ===================== CTA BANNER ===================== -->
-<section class="section" style="padding-top:0;" id="contacto">
-  <div class="wrap">
-    <div class="cta-banner">
-      <div class="cta-left">
-        <div class="cta-badge"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
-        <h3>Deja los problemas atrás y enfócate en lo que realmente importa: <em>hacer crecer tu negocio.</em></h3>
-      </div>
-      <div class="cta-right">
-        <a class="btn-primary" href="https://wa.me/51999999999" target="_blank" rel="noopener">
-          Hablemos de tu proyecto
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </a>
-        <span class="cta-phone">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          +51 999 999 999
-        </span>
-        <small>Estamos listos para ayudarte.</small>
-      </div>
-    </div>
-  </div>
-</section>
+      <div class="hero-right">
+        <svg
+          class="circuit-svg"
+          viewBox="0 0 600 640"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g stroke="#A855F7" stroke-width="1.2" fill="none" opacity="0.5">
+            <path d="M300 320 L300 120 L420 120 L420 60" />
+            <path d="M300 320 L120 320 L120 200 L60 200" />
+            <path d="M300 320 L300 520 L180 520 L180 580" />
+            <path d="M300 320 L480 320 L480 440 L540 440" />
+            <path d="M300 320 L400 260 L470 260" />
+            <path d="M300 320 L200 400 L140 400 L140 480" />
+            <path d="M300 320 L360 220 L360 100" />
+            <path d="M300 320 L220 220 L220 90" />
+          </g>
+          <g fill="#C4B5FD" opacity="0.85">
+            <circle cx="420" cy="60" r="4" />
+            <circle cx="60" cy="200" r="4" />
+            <circle cx="180" cy="580" r="4" />
+            <circle cx="540" cy="440" r="4" />
+            <circle cx="470" cy="260" r="4" />
+            <circle cx="140" cy="480" r="4" />
+            <circle cx="360" cy="100" r="4" />
+            <circle cx="220" cy="90" r="4" />
+          </g>
+        </svg>
+        <div class="core-node" aria-hidden="true">AI</div>
 
-<!-- ===================== TRUST STRIP ===================== -->
-<section class="section" style="padding-top:0;">
-  <div class="wrap">
-    <div class="trust-grid">
-      <div class="trust-item">
-        <div class="trust-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
-        <div><h4>Fácil de usar</h4><p>Soluciones pensadas para todos.</p></div>
-      </div>
-      <div class="trust-item">
-        <div class="trust-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-        <div><h4>Atención personalizada</h4><p>Te escuchamos y te acompañamos siempre.</p></div>
-      </div>
-      <div class="trust-item">
-        <div class="trust-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 6v6c0 5 3.4 8.7 8 10 4.6-1.3 8-5 8-10V6z"/></svg></div>
-        <div><h4>Confianza</h4><p>Tu información y la de tu negocio están seguras.</p></div>
-      </div>
-      <div class="trust-item">
-        <div class="trust-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-        <div><h4>Inversión inteligente</h4><p>Mejoramos tus procesos y aumentamos tus resultados.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
+        <div class="solutions-card">
+          <h3>Soluciones impulsadas por <em>IA</em></h3>
 
-<!-- ===================== FOOTER ===================== -->
-<footer>
-  <div class="wrap footer-inner">
-    <div class="footer-logo">
-      <img src="assets/q-icon.png" alt="Qore Group" class="logo-mark">
-      <span class="footer-logo-text">QORE GROUP</span>
-    </div>
-    <nav class="footer-links">
-      <a href="#"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Cajamarca, Perú</a>
-      <a href="https://qoregroup.pe" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 0 20 15.3 15.3 0 0 1 0-20z"/></svg>qoregroup.pe</a>
-      <a href="tel:+51999999999"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>+51 999 999 999</a>
-      <a href="mailto:info@qoregroup.pe"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6 12 13 2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>info@qoregroup.pe</a>
-    </nav>
-  </div>
-</footer>
+          <div class="sol-item">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"
+              />
+            </svg>
+            <span>Automatización inteligente</span>
+          </div>
+          <div class="sol-item">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M3 3v18h18" />
+              <path d="M7 15l4-6 4 3 5-8" />
+            </svg>
+            <span>Análisis predictivo</span>
+          </div>
+          <div class="sol-item">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="5" y="7" width="14" height="12" rx="2" />
+              <path d="M9 7V5a3 3 0 0 1 6 0v2" />
+              <circle cx="9.5" cy="13" r="1" />
+              <circle cx="14.5" cy="13" r="1" />
+            </svg>
+            <span>Chatbots y asistentes IA</span>
+          </div>
+          <div class="sol-item">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M3 20h18" />
+              <rect x="6" y="12" width="3" height="8" />
+              <rect x="11" y="7" width="3" height="13" />
+              <rect x="16" y="4" width="3" height="16" />
+            </svg>
+            <span>Toma de decisiones basada en datos</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-</body>
+    <!-- ===================== LO QUE HACEMOS ===================== -->
+    <section class="section" id="lo-que-hacemos">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Servicios</span>
+          <h2>Lo que hacemos</h2>
+        </div>
+
+        <div class="services-grid">
+          <article class="service-card">
+            <div class="icon-box">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polyline points="16 18 22 12 16 6" />
+                <polyline points="8 6 2 12 8 18" />
+              </svg>
+            </div>
+            <h3>Desarrollo de software</h3>
+            <p>Aplicaciones web y móviles a la medida.</p>
+          </article>
+          <article class="service-card">
+            <div class="icon-box">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z" />
+              </svg>
+            </div>
+            <h3>Cloud &amp; DevOps</h3>
+            <p>Infraestructura segura y escalable en la nube.</p>
+          </article>
+          <article class="service-card">
+            <div class="icon-box">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            </div>
+            <h3>Equipos especializados</h3>
+            <p>Talento experto que impulsa tus proyectos.</p>
+          </article>
+          <article class="service-card">
+            <div class="icon-box">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="7" y="7" width="10" height="10" rx="1" />
+                <path
+                  d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"
+                />
+              </svg>
+            </div>
+            <h3>Inteligencia artificial</h3>
+            <p>
+              Automatización, análisis y modelos predictivos que generan valor.
+            </p>
+          </article>
+          <article class="service-card">
+            <div class="icon-box">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M12 2 4 6v6c0 5 3.4 8.7 8 10 4.6-1.3 8-5 8-10V6z" />
+                <path d="m9 12 2 2 4-4" />
+              </svg>
+            </div>
+            <h3>Consultoría tecnológica</h3>
+            <p>Estrategia, seguridad y transformación digital.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PROBLEMAS ===================== -->
+    <section class="section section-alt">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Diagnóstico</span>
+          <h2>¿Tu negocio enfrenta estos problemas?</h2>
+        </div>
+
+        <div class="problems-grid">
+          <div class="problem-card">
+            <div class="problem-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="9" />
+                <polyline points="12 7 12 12 15 14" />
+              </svg>
+            </div>
+            <p>
+              <strong>Pierdes tiempo</strong> en tareas repetitivas y manuales.
+            </p>
+          </div>
+          <div class="problem-card">
+            <div class="problem-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="3" y="3" width="7" height="7" rx="1" />
+                <rect x="14" y="3" width="7" height="7" rx="1" />
+                <rect x="3" y="14" width="7" height="7" rx="1" />
+                <rect x="14" y="14" width="7" height="7" rx="1" />
+              </svg>
+            </div>
+            <p>
+              <strong>Tu información</strong> está en diferentes lugares y no la
+              encuentras fácil.
+            </p>
+          </div>
+          <div class="problem-card">
+            <div class="problem-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="9" y1="14" x2="15" y2="14" />
+                <line x1="9" y1="17" x2="15" y2="17" />
+              </svg>
+            </div>
+            <p>
+              <strong>No tienes datos</strong> claros para tomar decisiones con
+              seguridad.
+            </p>
+          </div>
+          <div class="problem-card">
+            <div class="problem-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" />
+              </svg>
+            </div>
+            <p>
+              <strong>Se te dificulta</strong> dar seguimiento a tus clientes y
+              ventas.
+            </p>
+          </div>
+          <div class="problem-card">
+            <div class="problem-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+                />
+                <line x1="12" y1="9" x2="12" y2="13" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+              </svg>
+            </div>
+            <p>
+              <strong>Sistemas que no</strong> se adaptan a tu forma de
+              trabajar.
+            </p>
+          </div>
+          <div class="problem-card">
+            <div class="problem-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="5" y="11" width="14" height="10" rx="2" />
+                <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+              </svg>
+            </div>
+            <p>
+              <strong>Riesgo de perder</strong> información valiosa de tu
+              negocio.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== NOSOTROS TE AYUDAMOS A ===================== -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Beneficios</span>
+          <h2>Nosotros te ayudamos a</h2>
+        </div>
+
+        <div class="help-grid">
+          <div class="help-card">
+            <div class="help-icon">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="3" />
+                <path
+                  d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"
+                />
+              </svg>
+            </div>
+            <div>
+              <h3>Automatizar</h3>
+              <p>Tareas y procesos para ahorrar tiempo y recursos.</p>
+            </div>
+          </div>
+          <div class="help-card">
+            <div class="help-icon">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"
+                />
+              </svg>
+            </div>
+            <div>
+              <h3>Organizar</h3>
+              <p>Toda tu información en un solo lugar, segura y disponible.</p>
+            </div>
+          </div>
+          <div class="help-card">
+            <div class="help-icon">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            </div>
+            <div>
+              <h3>Mejorar</h3>
+              <p>La atención y satisfacción de tus clientes.</p>
+            </div>
+          </div>
+          <div class="help-card">
+            <div class="help-icon">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M3 20h18" />
+                <rect x="6" y="12" width="3" height="8" />
+                <rect x="11" y="7" width="3" height="13" />
+                <rect x="16" y="4" width="3" height="16" />
+              </svg>
+            </div>
+            <div>
+              <h3>Obtener</h3>
+              <p>Reportes claros para tomar decisiones inteligentes.</p>
+            </div>
+          </div>
+          <div class="help-card">
+            <div class="help-icon">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M12 2 4 6v6c0 5 3.4 8.7 8 10 4.6-1.3 8-5 8-10V6z" />
+                <path d="m9 12 2 2 4-4" />
+              </svg>
+            </div>
+            <div>
+              <h3>Proteger</h3>
+              <p>Tus datos y los de tus clientes con seguridad.</p>
+            </div>
+          </div>
+          <div class="help-card">
+            <div class="help-icon">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                <polyline points="17 6 23 6 23 12" />
+              </svg>
+            </div>
+            <div>
+              <h3>Hacer crecer</h3>
+              <p>Tu negocio con tecnología simple, confiable y escalable.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== OUR APPROACH ===================== -->
+    <section class="section section-alt">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Nuestro enfoque</span>
+          <h2>Trabajamos con claridad, rigor y foco en resultados</h2>
+        </div>
+
+        <div class="approach-grid">
+          <article class="approach-card">
+            <div class="step-number">01</div>
+            <h3>Descubrimiento</h3>
+            <p>
+              Analizamos tus procesos, retos y objetivos para identificar dónde
+              la tecnología puede generar más valor.
+            </p>
+          </article>
+          <article class="approach-card">
+            <div class="step-number">02</div>
+            <h3>Diseño y desarrollo</h3>
+            <p>
+              Convertimos esa visión en una solución útil, escalable y alineada
+              con la forma de operar de tu negocio.
+            </p>
+          </article>
+          <article class="approach-card">
+            <div class="step-number">03</div>
+            <h3>Implementación y mejora continua</h3>
+            <p>
+              Acompañamos la puesta en marcha y la evolución del sistema para
+              que siga aportando valor con el tiempo.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CTA BANNER ===================== -->
+    <section class="section" style="padding-top: 0" id="contacto">
+      <div class="wrap">
+        <div class="cta-banner">
+          <div class="cta-left">
+            <div class="cta-badge">
+              <svg
+                width="26"
+                height="26"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+                />
+              </svg>
+            </div>
+            <h3>
+              Construyamos una solución que te ayude a operar mejor y crecer con
+              más confianza.
+            </h3>
+          </div>
+          <div class="cta-right">
+            <a
+              class="btn-primary"
+              href="https://wa.me/51966367594"
+              target="_blank"
+              rel="noopener"
+            >
+              Hablemos de tu proyecto
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </a>
+            <span class="cta-phone">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"
+                />
+              </svg>
+              +51 966 367 594
+            </span>
+            <small>Estamos listos para ayudarte.</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== TRUST STRIP ===================== -->
+    <section class="section" style="padding-top: 0">
+      <div class="wrap">
+        <div class="trust-grid">
+          <div class="trust-item">
+            <div class="trust-icon">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="9" />
+                <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+                <line x1="9" y1="9" x2="9.01" y2="9" />
+                <line x1="15" y1="9" x2="15.01" y2="9" />
+              </svg>
+            </div>
+            <div>
+              <h4>Fácil de usar</h4>
+              <p>Soluciones pensadas para todos.</p>
+            </div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            </div>
+            <div>
+              <h4>Atención personalizada</h4>
+              <p>Te escuchamos y te acompañamos siempre.</p>
+            </div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M12 2 4 6v6c0 5 3.4 8.7 8 10 4.6-1.3 8-5 8-10V6z" />
+              </svg>
+            </div>
+            <div>
+              <h4>Confianza</h4>
+              <p>Tu información y la de tu negocio están seguras.</p>
+            </div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <line x1="12" y1="1" x2="12" y2="23" />
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+              </svg>
+            </div>
+            <div>
+              <h4>Inversión inteligente</h4>
+              <p>Mejoramos tus procesos y aumentamos tus resultados.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer>
+      <div class="wrap footer-inner">
+        <div class="footer-logo">
+          <img src="assets/q-icon.png" alt="Qore Group" class="logo-mark" />
+          <span class="footer-logo-text">QORE GROUP</span>
+        </div>
+        <nav class="footer-links">
+          <a href="#"
+            ><svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" /></svg
+            >Cajamarca, Perú</a
+          >
+          <a href="https://qorelatam.com" target="_blank" rel="noopener"
+            ><svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <line x1="2" y1="12" x2="22" y2="12" />
+              <path d="M12 2a15.3 15.3 0 0 1 0 20 15.3 15.3 0 0 1 0-20z" /></svg
+            >qorelatam.com</a
+          >
+          <a href="tel:+51966367594"
+            ><svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"
+              /></svg
+            >+51 966 367 594</a
+          >
+          <a href="mailto:contacto@qorelatam.com"
+            ><svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M4 4h16v16H4z" opacity="0" />
+              <path d="M22 6 12 13 2 6" />
+              <rect x="2" y="4" width="20" height="16" rx="2" /></svg
+            >contacto@qorelatam.com</a
+          >
+        </nav>
+      </div>
+    </footer>
+  </body>
 </html>
